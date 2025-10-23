@@ -2,8 +2,6 @@ import {
   EmployeeRow,
   parseEmployeesCsvRows,
   buildEmployeeAnalytics,
-  topEmployeesByParts,
-  topEmployeesByDefectRate,
   buildDailySeries,
 } from '../utils.js';
 
@@ -135,6 +133,17 @@ export function Employees({ rows, warnings, onRowsLoaded }: EmployeesProps) {
     () => buildEmployeeAnalytics(filteredRows),
     [filteredRows],
   );
+
+  const aggregatedEmployees = React.useMemo(() => {
+    const groups = Object.values(filteredAnalytics.byEmployee);
+    const entries = groups.map(group => {
+      const totalParts = group.reduce((sum, row) => sum + row.parts_made, 0);
+      const totalDefects = group.reduce((sum, row) => sum + row.defects, 0);
+      const { id, name } = group[0];
+      return { id, name, totalParts, totalDefects };
+    });
+    return entries.sort((a, b) => b.totalParts - a.totalParts);
+  }, [filteredAnalytics]);
 
   const chartData = React.useMemo(
     () => buildDailySeries(filteredAnalytics, shiftFilter, employeeFilter),
@@ -292,69 +301,32 @@ export function Employees({ rows, warnings, onRowsLoaded }: EmployeesProps) {
             </div>
           </div>
 
-          <div className="columns">
-            <div className="column">
-              <div className="table-container">
-                <table className="table is-fullwidth is-striped is-hoverable">
-                  <thead>
-                    <tr>
-                      <th>Сотрудник</th>
-                      <th className="has-text-right">Суммарная выработка</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {topEmployeesByParts(filteredAnalytics, 5).map(entry => {
-                      const name =
-                        employees.find(emp => emp.id === entry.id)?.name ?? entry.id;
-                      return (
-                        <tr key={entry.id}>
-                          <td>{name}</td>
-                          <td className="has-text-right">{entry.total}</td>
-                        </tr>
-                      );
-                    })}
-                    {!filteredRows.length && (
-                      <tr>
-                        <td colSpan={2} className="has-text-centered has-text-grey">
-                          Нет данных для выбранных фильтров
-                        </td>
-                      </tr>
-                    )}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-            <div className="column">
-              <div className="table-container">
-                <table className="table is-fullwidth is-striped is-hoverable">
-                  <thead>
-                    <tr>
-                      <th>Сотрудник</th>
-                      <th className="has-text-right">Дефекты, %</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {topEmployeesByDefectRate(filteredAnalytics, 5).map(entry => {
-                      const name =
-                        employees.find(emp => emp.id === entry.id)?.name ?? entry.id;
-                      return (
-                        <tr key={entry.id}>
-                          <td>{name}</td>
-                          <td className="has-text-right">{entry.rate.toFixed(2)}</td>
-                        </tr>
-                      );
-                    })}
-                    {!filteredRows.length && (
-                      <tr>
-                        <td colSpan={2} className="has-text-centered has-text-grey">
-                          Нет данных для выбранных фильтров
-                        </td>
-                      </tr>
-                    )}
-                  </tbody>
-                </table>
-              </div>
-            </div>
+          <div className="table-container">
+            <table className="table is-fullwidth is-striped is-hoverable">
+              <thead>
+                <tr>
+                  <th>Сотрудник</th>
+                  <th className="has-text-right">Выработка</th>
+                  <th className="has-text-right">Дефекты</th>
+                </tr>
+              </thead>
+              <tbody>
+                {aggregatedEmployees.map(entry => (
+                  <tr key={entry.id}>
+                    <td>{entry.name}</td>
+                    <td className="has-text-right">{entry.totalParts}</td>
+                    <td className="has-text-right">{entry.totalDefects}</td>
+                  </tr>
+                ))}
+                {!aggregatedEmployees.length && (
+                  <tr>
+                    <td colSpan={3} className="has-text-centered has-text-grey">
+                      Нет данных для выбранных фильтров
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
           </div>
 
           <div className="box" style={{ height: '320px' }}>

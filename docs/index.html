@@ -4,6 +4,82 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Мониторинг качества — демо</title>
+    <style>
+      :root {
+        color-scheme: light;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        background: #f4f6fb;
+        font-family: 'Inter', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      }
+      .navbar {
+        border-bottom-left-radius: 18px;
+        border-bottom-right-radius: 18px;
+        box-shadow: 0 8px 20px rgba(30, 50, 93, 0.18);
+      }
+      .navbar .navbar-item,
+      .navbar .button {
+        transition: background 0.2s ease, color 0.2s ease;
+      }
+      .section {
+        padding-top: 2.5rem;
+      }
+      .box,
+      .message {
+        border-radius: 16px;
+        box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+      .box:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 16px 32px rgba(15, 23, 42, 0.12);
+      }
+      .message.is-warning {
+        border: none;
+        background: linear-gradient(135deg, rgba(255, 214, 102, 0.92), rgba(255, 166, 0, 0.85));
+        color: #2a2a2a;
+      }
+      .message.is-warning .message-header {
+        background: transparent;
+        border-bottom: none;
+        color: inherit;
+      }
+      .message.is-warning .message-body {
+        background: rgba(255, 255, 255, 0.65);
+        border-radius: 0 0 16px 16px;
+      }
+      .button,
+      .file-cta,
+      .file-name {
+        border-radius: 999px;
+        transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+      }
+      .button:hover,
+      .file-label:hover .file-cta {
+        transform: translateY(-1px);
+        box-shadow: 0 12px 24px rgba(15, 23, 42, 0.16);
+      }
+      .file.has-name .file-name {
+        border-radius: 24px;
+      }
+      .table.is-striped tbody tr {
+        transition: transform 0.15s ease;
+      }
+      .table.is-striped tbody tr:hover {
+        transform: translateX(4px);
+      }
+      canvas {
+        border-radius: 14px;
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(237, 242, 247, 0.7));
+      }
+      .message ul {
+        margin: 0;
+        padding-left: 1.2rem;
+      }
+    </style>
     <!-- Bulma CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" />
     <!-- Font Awesome for icons (optional) -->
