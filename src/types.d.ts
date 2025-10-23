@@ -10,6 +10,10 @@ interface ReactLike {
 
 interface ReactDOMLike {
   render(element: any, container: Element | DocumentFragment | null): void;
+  createRoot?(
+    container: Element | DocumentFragment,
+    options?: { hydrate?: boolean },
+  ): { render(children: any): void };
 }
 
 declare const React: ReactLike;

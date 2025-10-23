@@ -5,5 +5,11 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error('Не найден контейнер #root');
         return;
     }
-    ReactDOM.render(React.createElement(App, null), root);
+    if (typeof ReactDOM.createRoot === 'function') {
+        const rootInstance = ReactDOM.createRoot(root);
+        rootInstance.render(React.createElement(App, null));
+    }
+    else {
+        ReactDOM.render(React.createElement(App, null), root);
+    }
 });
