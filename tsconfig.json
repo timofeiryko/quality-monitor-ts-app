@@ -6,7 +6,7 @@
     "jsx": "react",
     "strict": false,
     "skipLibCheck": true,
-    "outDir": "dist",
+    "outDir": "docs/dist",
     "allowJs": true
   },
   "include": ["src/**/*"]
