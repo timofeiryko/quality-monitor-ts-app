@@ -1,9 +1,9 @@
-import { evaluateProcessRows, loadStoredThresholds, persistThresholds, analyseInventory, } from './utils';
-import { Login } from './components/Login';
-import { Dashboard } from './components/Dashboard';
-import { Employees } from './components/Employees';
-import { Inventory } from './components/Inventory';
-import { Settings } from './components/Settings';
+import { evaluateProcessRows, loadStoredThresholds, persistThresholds, analyseInventory, } from './utils.js';
+import { Login } from './components/Login.js';
+import { Dashboard } from './components/Dashboard.js';
+import { Employees } from './components/Employees.js';
+import { Inventory } from './components/Inventory.js';
+import { Settings } from './components/Settings.js';
 const TABS = [
     { key: 'dashboard', label: 'Дашборд' },
     { key: 'employees', label: 'Работники' },
@@ -93,14 +93,7 @@ export function App() {
                     React.createElement("div", { className: "navbar-item" },
                         React.createElement("div", { className: "buttons" },
                             React.createElement("button", { className: "button is-light", onClick: handleLogout }, "\u0412\u044B\u0445\u043E\u0434")))))),
-        combinedAlerts.length > 0 && (React.createElement("section", { className: "section py-3" },
-            React.createElement("div", { className: "container" },
-                React.createElement("article", { className: "message is-warning" },
-                    React.createElement("div", { className: "message-header" },
-                        React.createElement("p", null, "\u041D\u0435\u0434\u0430\u0432\u043D\u0438\u0435 \u043F\u0440\u0435\u0434\u0443\u043F\u0440\u0435\u0436\u0434\u0435\u043D\u0438\u044F")),
-                    React.createElement("div", { className: "message-body" },
-                        React.createElement("ul", null, combinedAlerts.slice(-6).reverse().map((alert, index) => (React.createElement("li", { key: index }, alert.message))))))))),
-        activeTab === 'dashboard' && (React.createElement(Dashboard, { analytics: processAnalytics, thresholds: thresholds, warnings: processWarnings, onRowsLoaded: handleProcessLoaded })),
+        activeTab === 'dashboard' && (React.createElement(Dashboard, { analytics: processAnalytics, thresholds: thresholds, warnings: processWarnings, onRowsLoaded: handleProcessLoaded, alerts: combinedAlerts })),
         activeTab === 'employees' && (React.createElement(Employees, { rows: employeeRows, warnings: employeeWarnings, onRowsLoaded: handleEmployeesLoaded })),
         activeTab === 'inventory' && (React.createElement(Inventory, { rows: inventoryRows, warnings: inventoryWarnings, onRowsLoaded: handleInventoryLoaded })),
         activeTab === 'settings' && (React.createElement(Settings, { thresholds: thresholds, onThresholdsChange: handleThresholdsChange }))));

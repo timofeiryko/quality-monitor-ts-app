@@ -2,7 +2,7 @@ import {
   InventoryRow,
   parseInventoryCsvRows,
   analyseInventory,
-} from '../utils';
+} from '../utils.js';
 
 interface InventoryProps {
   rows: InventoryRow[];

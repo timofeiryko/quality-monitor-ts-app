@@ -6,12 +6,14 @@ import {
   parseProcessCsvRows,
   buildProcessCsvExport,
   triggerCsvDownload,
-} from '../utils';
+  Alert,
+} from '../utils.js';
 
 interface DashboardProps {
   analytics: ProcessAnalytics;
   thresholds: Thresholds;
   warnings: string[];
+  alerts: Alert[];
   onRowsLoaded(rows: ProcessRow[], warnings: string[]): void;
 }
 
@@ -121,8 +123,8 @@ function useChart(rows: ProcessRowWithRisk[]) {
   return canvasRef;
 }
 
-export function Dashboard({ analytics, thresholds, warnings, onRowsLoaded }: DashboardProps) {
-  const { rows, alerts, latest, avgP } = analytics;
+export function Dashboard({ analytics, thresholds, warnings, alerts, onRowsLoaded }: DashboardProps) {
+  const { rows, latest, avgP } = analytics;
   const canvasRef = useChart(rows);
   const [loadingDemo, setLoadingDemo] = React.useState(false);
 
@@ -277,21 +279,26 @@ export function Dashboard({ analytics, thresholds, warnings, onRowsLoaded }: Das
           )}
         </div>
 
-        <div className="box">
-          <h3 className="title is-6">Экстренные уведомления</h3>
-          {!alerts.length && (
-            <p className="has-text-grey">Критические события не обнаружены</p>
-          )}
-          {alerts.length > 0 && (
-            <ul>
-              {alerts.slice(-8).reverse().map(alert => (
-                <li key={alert.index}>
-                  {alert.message}
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
+        <article className="message is-warning">
+          <div className="message-header">
+            <p>Экстренные уведомления</p>
+          </div>
+          <div className="message-body">
+            {!alerts.length && <p className="has-text-grey">Критических событий нет</p>}
+            {alerts.length > 0 && (
+              <ul>
+                {alerts.slice(-8).reverse().map((alert, idx) => {
+                  const key = 'index' in alert
+                    ? `process-${alert.index}`
+                    : alert.type === 'inventory'
+                      ? `inventory-${alert.tool}-${idx}`
+                      : `alert-${idx}`;
+                  return <li key={key}>{alert.message}</li>;
+                })}
+              </ul>
+            )}
+          </div>
+        </article>
       </div>
     </section>
   );

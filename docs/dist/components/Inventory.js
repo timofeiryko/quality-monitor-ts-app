@@ -1,4 +1,4 @@
-import { parseInventoryCsvRows, analyseInventory, } from '../utils';
+import { parseInventoryCsvRows, analyseInventory, } from '../utils.js';
 export function Inventory({ rows, warnings, onRowsLoaded }) {
     const analysis = React.useMemo(() => analyseInventory(rows), [rows]);
     const [loadingDemo, setLoadingDemo] = React.useState(false);

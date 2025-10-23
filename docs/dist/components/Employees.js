@@ -1,4 +1,4 @@
-import { parseEmployeesCsvRows, buildEmployeeAnalytics, topEmployeesByParts, topEmployeesByDefectRate, buildDailySeries, } from '../utils';
+import { parseEmployeesCsvRows, buildEmployeeAnalytics, topEmployeesByParts, topEmployeesByDefectRate, buildDailySeries, } from '../utils.js';
 function useEmployeeChart(data) {
     const canvasRef = React.useRef(null);
     const chartRef = React.useRef(null);
@@ -180,7 +180,7 @@ export function Employees({ rows, warnings, onRowsLoaded }) {
                         React.createElement("p", { className: "title is-4" }, analytics.totalEmployees || '—'))),
                 React.createElement("div", { className: "column is-one-quarter-desktop is-half-tablet" },
                     React.createElement("div", { className: "box has-text-centered" },
-                        React.createElement("p", { className: "heading" }, "\u0412 \u0441\u043C\u0435\u043D\u0435 \u0441\u0435\u0439\u0447\u0430\u0441"),
+                        React.createElement("p", { className: "heading" }, "\u041D\u0430 \u0441\u043C\u0435\u043D\u0435 \u0441\u0435\u0439\u0447\u0430\u0441"),
                         React.createElement("p", { className: "title is-4" }, analytics.currentShiftCount || '—'))),
                 React.createElement("div", { className: "column is-one-quarter-desktop is-half-tablet" },
                     React.createElement("div", { className: "box has-text-centered" },

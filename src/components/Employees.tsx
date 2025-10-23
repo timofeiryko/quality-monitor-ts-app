@@ -5,7 +5,7 @@ import {
   topEmployeesByParts,
   topEmployeesByDefectRate,
   buildDailySeries,
-} from '../utils';
+} from '../utils.js';
 
 interface EmployeesProps {
   rows: EmployeeRow[];
@@ -239,7 +239,7 @@ export function Employees({ rows, warnings, onRowsLoaded }: EmployeesProps) {
           </div>
           <div className="column is-one-quarter-desktop is-half-tablet">
             <div className="box has-text-centered">
-              <p className="heading">В смене сейчас</p>
+              <p className="heading">На смене сейчас</p>
               <p className="title is-4">{analytics.currentShiftCount || '—'}</p>
             </div>
           </div>

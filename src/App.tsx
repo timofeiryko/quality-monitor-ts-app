@@ -9,12 +9,12 @@ import {
   loadStoredThresholds,
   persistThresholds,
   analyseInventory,
-} from './utils';
-import { Login } from './components/Login';
-import { Dashboard } from './components/Dashboard';
-import { Employees } from './components/Employees';
-import { Inventory } from './components/Inventory';
-import { Settings } from './components/Settings';
+} from './utils.js';
+import { Login } from './components/Login.js';
+import { Dashboard } from './components/Dashboard.js';
+import { Employees } from './components/Employees.js';
+import { Inventory } from './components/Inventory.js';
+import { Settings } from './components/Settings.js';
 
 type TabKey = 'dashboard' | 'employees' | 'inventory' | 'settings';
 
@@ -152,31 +152,13 @@ export function App() {
         </div>
       </nav>
 
-      {combinedAlerts.length > 0 && (
-        <section className="section py-3">
-          <div className="container">
-            <article className="message is-warning">
-              <div className="message-header">
-                <p>Недавние предупреждения</p>
-              </div>
-              <div className="message-body">
-                <ul>
-                  {combinedAlerts.slice(-6).reverse().map((alert, index) => (
-                    <li key={index}>{alert.message}</li>
-                  ))}
-                </ul>
-              </div>
-            </article>
-          </div>
-        </section>
-      )}
-
       {activeTab === 'dashboard' && (
         <Dashboard
           analytics={processAnalytics}
           thresholds={thresholds}
           warnings={processWarnings}
           onRowsLoaded={handleProcessLoaded}
+          alerts={combinedAlerts}
         />
       )}
       {activeTab === 'employees' && (

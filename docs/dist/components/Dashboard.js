@@ -1,4 +1,4 @@
-import { parseProcessCsvRows, buildProcessCsvExport, triggerCsvDownload, } from '../utils';
+import { parseProcessCsvRows, buildProcessCsvExport, triggerCsvDownload, } from '../utils.js';
 function makeChartConfig(rows) {
     const labels = rows.map(row => { var _a; return (_a = row.ts) !== null && _a !== void 0 ? _a : String(row.index + 1); });
     return {
@@ -104,8 +104,8 @@ function useChart(rows) {
     }, [rows]);
     return canvasRef;
 }
-export function Dashboard({ analytics, thresholds, warnings, onRowsLoaded }) {
-    const { rows, alerts, latest, avgP } = analytics;
+export function Dashboard({ analytics, thresholds, warnings, alerts, onRowsLoaded }) {
+    const { rows, latest, avgP } = analytics;
     const canvasRef = useChart(rows);
     const [loadingDemo, setLoadingDemo] = React.useState(false);
     function handleFileChange(e) {
@@ -216,8 +216,17 @@ export function Dashboard({ analytics, thresholds, warnings, onRowsLoaded }) {
                         React.createElement("p", { className: "heading" }, "\u0420\u0438\u0441\u043A \u0431\u0440\u0430\u043A\u0430 (\u0441\u0440\u0435\u0434\u043D\u0438\u0439)"),
                         React.createElement("p", { className: "title is-4" }, rows.length ? `${(avgP * 100).toFixed(1)} %` : '—')))),
             React.createElement("div", { className: "box", style: { height: '360px' } }, rows.length ? (React.createElement("canvas", { ref: canvasRef })) : (React.createElement("p", { className: "has-text-grey" }, "\u0417\u0430\u0433\u0440\u0443\u0437\u0438\u0442\u0435 CSV, \u0447\u0442\u043E\u0431\u044B \u0443\u0432\u0438\u0434\u0435\u0442\u044C \u0433\u0440\u0430\u0444\u0438\u043A\u0438"))),
-            React.createElement("div", { className: "box" },
-                React.createElement("h3", { className: "title is-6" }, "\u042D\u043A\u0441\u0442\u0440\u0435\u043D\u043D\u044B\u0435 \u0443\u0432\u0435\u0434\u043E\u043C\u043B\u0435\u043D\u0438\u044F"),
-                !alerts.length && (React.createElement("p", { className: "has-text-grey" }, "\u041A\u0440\u0438\u0442\u0438\u0447\u0435\u0441\u043A\u0438\u0435 \u0441\u043E\u0431\u044B\u0442\u0438\u044F \u043D\u0435 \u043E\u0431\u043D\u0430\u0440\u0443\u0436\u0435\u043D\u044B")),
-                alerts.length > 0 && (React.createElement("ul", null, alerts.slice(-8).reverse().map(alert => (React.createElement("li", { key: alert.index }, alert.message)))))))));
+            React.createElement("article", { className: "message is-warning" },
+                React.createElement("div", { className: "message-header" },
+                    React.createElement("p", null, "\u042D\u043A\u0441\u0442\u0440\u0435\u043D\u043D\u044B\u0435 \u0443\u0432\u0435\u0434\u043E\u043C\u043B\u0435\u043D\u0438\u044F")),
+                React.createElement("div", { className: "message-body" },
+                    !alerts.length && React.createElement("p", { className: "has-text-grey" }, "\u041A\u0440\u0438\u0442\u0438\u0447\u0435\u0441\u043A\u0438\u0445 \u0441\u043E\u0431\u044B\u0442\u0438\u0439 \u043D\u0435\u0442"),
+                    alerts.length > 0 && (React.createElement("ul", null, alerts.slice(-8).reverse().map((alert, idx) => {
+                        const key = 'index' in alert
+                            ? `process-${alert.index}`
+                            : alert.type === 'inventory'
+                                ? `inventory-${alert.tool}-${idx}`
+                                : `alert-${idx}`;
+                        return React.createElement("li", { key: key }, alert.message);
+                    }))))))));
 }

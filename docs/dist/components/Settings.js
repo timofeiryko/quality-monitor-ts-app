@@ -1,4 +1,4 @@
-import { DEFAULT_THRESHOLDS, } from '../utils';
+import { DEFAULT_THRESHOLDS, } from '../utils.js';
 export function Settings({ thresholds, onThresholdsChange }) {
     var _a;
     const [draft, setDraft] = React.useState({ ...thresholds });

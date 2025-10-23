@@ -1,7 +1,7 @@
 import {
   Thresholds,
   DEFAULT_THRESHOLDS,
-} from '../utils';
+} from '../utils.js';
 
 interface SettingsProps {
   thresholds: Thresholds;
