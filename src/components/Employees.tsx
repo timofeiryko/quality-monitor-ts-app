@@ -139,8 +139,9 @@ export function Employees({ rows, warnings, onRowsLoaded }: EmployeesProps) {
     const entries = groups.map(group => {
       const totalParts = group.reduce((sum, row) => sum + row.parts_made, 0);
       const totalDefects = group.reduce((sum, row) => sum + row.defects, 0);
+      const defectRate = totalParts > 0 ? (totalDefects / totalParts) * 100 : 0;
       const { id, name } = group[0];
-      return { id, name, totalParts, totalDefects };
+      return { id, name, totalParts, totalDefects, defectRate };
     });
     return entries.sort((a, b) => b.totalParts - a.totalParts);
   }, [filteredAnalytics]);
@@ -301,12 +302,12 @@ export function Employees({ rows, warnings, onRowsLoaded }: EmployeesProps) {
             </div>
           </div>
 
-          <div className="table-container">
+          <div className="table-container employees-table">
             <table className="table is-fullwidth is-striped is-hoverable">
               <thead>
                 <tr>
                   <th>Сотрудник</th>
-                  <th className="has-text-right">Выработка</th>
+                  <th className="has-text-right">Выработка (шт.)</th>
                   <th className="has-text-right">Дефекты</th>
                 </tr>
               </thead>
@@ -315,7 +316,14 @@ export function Employees({ rows, warnings, onRowsLoaded }: EmployeesProps) {
                   <tr key={entry.id}>
                     <td>{entry.name}</td>
                     <td className="has-text-right">{entry.totalParts}</td>
-                    <td className="has-text-right">{entry.totalDefects}</td>
+                    <td className="has-text-right">
+                      {entry.totalDefects}
+                      {entry.totalParts > 0 && (
+                        <span className="has-text-grey is-size-7">
+                          {` (${entry.defectRate.toFixed(2)} %)`}
+                        </span>
+                      )}
+                    </td>
                   </tr>
                 ))}
                 {!aggregatedEmployees.length && (

@@ -120,8 +120,9 @@ export function Employees({ rows, warnings, onRowsLoaded }) {
         const entries = groups.map(group => {
             const totalParts = group.reduce((sum, row) => sum + row.parts_made, 0);
             const totalDefects = group.reduce((sum, row) => sum + row.defects, 0);
+            const defectRate = totalParts > 0 ? (totalDefects / totalParts) * 100 : 0;
             const { id, name } = group[0];
-            return { id, name, totalParts, totalDefects };
+            return { id, name, totalParts, totalDefects, defectRate };
         });
         return entries.sort((a, b) => b.totalParts - a.totalParts);
     }, [filteredAnalytics]);
@@ -214,18 +215,20 @@ export function Employees({ rows, warnings, onRowsLoaded }) {
                             React.createElement("select", { value: employeeFilter, onChange: e => setEmployeeFilter(e.target.value) },
                                 React.createElement("option", { value: "all" }, "\u0412\u0441\u0435 \u0441\u043E\u0442\u0440\u0443\u0434\u043D\u0438\u043A\u0438"),
                                 employees.map(emp => (React.createElement("option", { key: emp.id, value: emp.id }, emp.name))))))),
-                React.createElement("div", { className: "table-container" },
+                React.createElement("div", { className: "table-container employees-table" },
                     React.createElement("table", { className: "table is-fullwidth is-striped is-hoverable" },
                         React.createElement("thead", null,
                             React.createElement("tr", null,
                                 React.createElement("th", null, "\u0421\u043E\u0442\u0440\u0443\u0434\u043D\u0438\u043A"),
-                                React.createElement("th", { className: "has-text-right" }, "\u0412\u044B\u0440\u0430\u0431\u043E\u0442\u043A\u0430"),
+                                React.createElement("th", { className: "has-text-right" }, "\u0412\u044B\u0440\u0430\u0431\u043E\u0442\u043A\u0430 (\u0448\u0442.)"),
                                 React.createElement("th", { className: "has-text-right" }, "\u0414\u0435\u0444\u0435\u043A\u0442\u044B"))),
                         React.createElement("tbody", null,
                             aggregatedEmployees.map(entry => (React.createElement("tr", { key: entry.id },
                                 React.createElement("td", null, entry.name),
                                 React.createElement("td", { className: "has-text-right" }, entry.totalParts),
-                                React.createElement("td", { className: "has-text-right" }, entry.totalDefects)))),
+                                React.createElement("td", { className: "has-text-right" },
+                                    entry.totalDefects,
+                                    entry.totalParts > 0 && (React.createElement("span", { className: "has-text-grey is-size-7" }, ` (${entry.defectRate.toFixed(2)} %)`)))))),
                             !aggregatedEmployees.length && (React.createElement("tr", null,
                                 React.createElement("td", { colSpan: 3, className: "has-text-centered has-text-grey" }, "\u041D\u0435\u0442 \u0434\u0430\u043D\u043D\u044B\u0445 \u0434\u043B\u044F \u0432\u044B\u0431\u0440\u0430\u043D\u043D\u044B\u0445 \u0444\u0438\u043B\u044C\u0442\u0440\u043E\u0432")))))),
                 React.createElement("div", { className: "box", style: { height: '320px' } }, chartData.length ? (React.createElement("canvas", { ref: canvasRef })) : (React.createElement("p", { className: "has-text-grey" }, "\u0412\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u0444\u0430\u0439\u043B \u0438\u043B\u0438 \u0434\u0435\u043C\u043E-\u0434\u0430\u043D\u043D\u044B\u0435, \u0447\u0442\u043E\u0431\u044B \u0443\u0432\u0438\u0434\u0435\u0442\u044C \u0434\u0438\u043D\u0430\u043C\u0438\u043A\u0443 \u043F\u043E \u0434\u0430\u0442\u0430\u043C")))))));
