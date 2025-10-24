@@ -78,7 +78,7 @@ export function App() {
     if (!role) {
         return React.createElement(Login, { onSuccess: handleLoginSuccess });
     }
-    return (React.createElement("div", null,
+    return (React.createElement("div", { className: "app-shell" },
         React.createElement("nav", { className: "navbar is-dark", role: "navigation", "aria-label": "main navigation" },
             React.createElement("div", { className: "navbar-brand" },
                 React.createElement("span", { className: "navbar-item" },
@@ -93,8 +93,9 @@ export function App() {
                     React.createElement("div", { className: "navbar-item" },
                         React.createElement("div", { className: "buttons" },
                             React.createElement("button", { className: "button is-light", onClick: handleLogout }, "\u0412\u044B\u0445\u043E\u0434")))))),
-        activeTab === 'dashboard' && (React.createElement(Dashboard, { analytics: processAnalytics, thresholds: thresholds, warnings: processWarnings, onRowsLoaded: handleProcessLoaded, alerts: combinedAlerts })),
-        activeTab === 'employees' && (React.createElement(Employees, { rows: employeeRows, warnings: employeeWarnings, onRowsLoaded: handleEmployeesLoaded })),
-        activeTab === 'inventory' && (React.createElement(Inventory, { rows: inventoryRows, warnings: inventoryWarnings, onRowsLoaded: handleInventoryLoaded })),
-        activeTab === 'settings' && (React.createElement(Settings, { thresholds: thresholds, onThresholdsChange: handleThresholdsChange }))));
+        React.createElement("main", { className: "app-content" },
+            activeTab === 'dashboard' && (React.createElement(Dashboard, { analytics: processAnalytics, thresholds: thresholds, warnings: processWarnings, onRowsLoaded: handleProcessLoaded, alerts: combinedAlerts })),
+            activeTab === 'employees' && (React.createElement(Employees, { rows: employeeRows, warnings: employeeWarnings, onRowsLoaded: handleEmployeesLoaded })),
+            activeTab === 'inventory' && (React.createElement(Inventory, { rows: inventoryRows, warnings: inventoryWarnings, onRowsLoaded: handleInventoryLoaded })),
+            activeTab === 'settings' && (React.createElement(Settings, { thresholds: thresholds, onThresholdsChange: handleThresholdsChange })))));
 }

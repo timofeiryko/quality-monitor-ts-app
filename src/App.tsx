@@ -110,7 +110,7 @@ export function App() {
   }
 
   return (
-    <div>
+    <div className="app-shell">
       <nav className="navbar is-dark" role="navigation" aria-label="main navigation">
         <div className="navbar-brand">
           <span className="navbar-item">
@@ -152,32 +152,34 @@ export function App() {
         </div>
       </nav>
 
-      {activeTab === 'dashboard' && (
-        <Dashboard
-          analytics={processAnalytics}
-          thresholds={thresholds}
-          warnings={processWarnings}
-          onRowsLoaded={handleProcessLoaded}
-          alerts={combinedAlerts}
-        />
-      )}
-      {activeTab === 'employees' && (
-        <Employees
-          rows={employeeRows}
-          warnings={employeeWarnings}
-          onRowsLoaded={handleEmployeesLoaded}
-        />
-      )}
-      {activeTab === 'inventory' && (
-        <Inventory
-          rows={inventoryRows}
-          warnings={inventoryWarnings}
-          onRowsLoaded={handleInventoryLoaded}
-        />
-      )}
-      {activeTab === 'settings' && (
-        <Settings thresholds={thresholds} onThresholdsChange={handleThresholdsChange} />
-      )}
+      <main className="app-content">
+        {activeTab === 'dashboard' && (
+          <Dashboard
+            analytics={processAnalytics}
+            thresholds={thresholds}
+            warnings={processWarnings}
+            onRowsLoaded={handleProcessLoaded}
+            alerts={combinedAlerts}
+          />
+        )}
+        {activeTab === 'employees' && (
+          <Employees
+            rows={employeeRows}
+            warnings={employeeWarnings}
+            onRowsLoaded={handleEmployeesLoaded}
+          />
+        )}
+        {activeTab === 'inventory' && (
+          <Inventory
+            rows={inventoryRows}
+            warnings={inventoryWarnings}
+            onRowsLoaded={handleInventoryLoaded}
+          />
+        )}
+        {activeTab === 'settings' && (
+          <Settings thresholds={thresholds} onThresholdsChange={handleThresholdsChange} />
+        )}
+      </main>
     </div>
   );
 }

@@ -34,9 +34,6 @@
         background-color: rgba(255, 255, 255, 0.12) !important;
         color: #ffffff !important;
       }
-      .section {
-        padding-top: 4.5rem;
-      }
       .box,
       .message {
         border-radius: 16px;
@@ -72,6 +69,9 @@
         max-width: 720px;
         margin: 0 auto;
       }
+      .app-content {
+        padding: 1.5rem 0 3rem;
+      }
     </style>
     <!-- Bulma CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" />
@@ -86,9 +86,7 @@
     <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
   </head>
   <body>
-    <section class="section">
-      <div id="root"></div>
-    </section>
+    <div id="root"></div>
     <!-- Our compiled TypeScript bundle (plain script since we do not use ES modules) -->
     <script type="module" src="./dist/main.js"></script>
   </body>
